@@ -13,6 +13,7 @@ dist-ssr
 
 # Large local media
 /public/Videos .mp4
+/dist/Videos .mp4
 
 # Editor directories and files
 .vscode/*

@@ -19,11 +19,11 @@ export const ceremonyContent = {
   ],
   revealPrompt: 'A special name has been chosen for this precious blessing...',
   revealButton: 'Reveal the Journey',
-  babyName: 'Sankavi Jude',
+  babyName: 'DIYAASHIK',
   revealBlessing: 'May God bless you with a life filled with happiness, health, wisdom, and endless love.',
   finalTitle: 'Thank you for being part of this special moment.',
   finalSubtitle: 'Please keep our little prince in your prayers and blessings.',
   finalPhotoLabel: 'Our Little Prince',
   audioSource: 'birthday-song.mp3',
-  videoSource: 'birthday-video-new.mp4',
+  youtubeVideoId: 'XqnQoFsEsMw',
 }

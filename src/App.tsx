@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ReactConfetti from 'react-confetti'
 import StarField from './components/StarField'
 import { ceremonyContent } from './content'
 
-const videoSource = `${import.meta.env.BASE_URL}${ceremonyContent.videoSource}`
+const youtubeEmbedUrl = `https://www.youtube.com/embed/${ceremonyContent.youtubeVideoId}?autoplay=1&rel=0`
 
 const stageMotion = {
   hidden: { opacity: 0, y: 24 },
@@ -17,11 +17,9 @@ const App = () => {
   const [windowSize, setWindowSize] = useState({ width: 1280, height: 720 })
   const [revealedLetters, setRevealedLetters] = useState(0)
   const [showRevealConfetti, setShowRevealConfetti] = useState(false)
-  const [videoEnded, setVideoEnded] = useState(false)
   const [showVideo, setShowVideo] = useState(false)
   const [showFinalHearts, setShowFinalHearts] = useState(false)
 
-  const videoRef = useRef<HTMLVideoElement | null>(null)
   const babyNameLetters = useMemo(() => ceremonyContent.babyName.split(''), [])
 
   useEffect(() => {
@@ -42,7 +40,6 @@ const App = () => {
   }
 
   const handleBack = () => {
-    videoRef.current?.pause()
     setStage((current) => (current === 6 ? 4 : Math.max(0, current - 1)))
   }
 
@@ -56,21 +53,11 @@ const App = () => {
   useEffect(() => {
     if (stage !== 4) return
 
-    setVideoEnded(false)
     setShowVideo(false)
     const introTimer = window.setTimeout(() => setShowVideo(true), 2500)
 
     return () => window.clearTimeout(introTimer)
   }, [stage])
-
-  useEffect(() => {
-    if (!showVideo || stage !== 4 || !videoRef.current) return
-
-    videoRef.current.currentTime = 0
-    videoRef.current.play().catch(() => {
-      /* autoplay may be blocked until interaction */
-    })
-  }, [showVideo, stage])
 
   useEffect(() => {
     if (stage !== 5) {
@@ -271,17 +258,16 @@ const App = () => {
                   <p>Enjoy this special journey with us.</p>
                 </motion.div>
               )}
-              <video
-                ref={videoRef}
+              {showVideo && (
+                <iframe
                 className={`video-player ${showVideo ? 'video-player--visible' : ''}`}
-                src={videoSource}
-                playsInline
-                controls={showVideo}
-                disablePictureInPicture
-                muted={false}
-                onEnded={() => setVideoEnded(true)}
-              />
-              {videoEnded && (
+                  src={youtubeEmbedUrl}
+                  title="Birthday celebration video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              )}
+              {showVideo && (
                 <motion.div
                   className="video-next-wrap"
                   initial={{ opacity: 0, y: 20 }}
